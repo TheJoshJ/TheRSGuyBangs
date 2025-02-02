@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 
 const NavButtons = {
-  Player: { text: "Home", link: "/" },
+  Home: { text: "Home", link: "/" },
+  Records: { text: "Records", link: "/records" },
 };
 
 const Navbar = () => {
