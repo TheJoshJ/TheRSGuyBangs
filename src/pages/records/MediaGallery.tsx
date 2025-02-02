@@ -10,13 +10,13 @@ const videos: MediaItem[] = [
   {
     title: "We need to talk about my future in the RuneScape community.",
     thumbnail: "https://i.ytimg.com/vi/TpRLuboKQKE/hqdefault.jpg",
-    description: "0 total bangs.",
+    description: "0 total bangs",
   },
   {
     title:
       "The 25 Hour Grind for a HUGE upgrade! | Style Locked Group Ironman (#9)",
     thumbnail: "https://i.ytimg.com/vi/3nP7zKUa7WA/hqdefault.jpg",
-    description: "35 total bangs.",
+    description: "35 total bangs",
   },
 ];
 
