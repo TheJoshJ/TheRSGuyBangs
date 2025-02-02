@@ -1,5 +1,3 @@
-import React from "react";
-
 interface MediaItem {
   title: string;
   thumbnail: string;
@@ -20,18 +18,18 @@ const videos: MediaItem[] = [
   },
 ];
 
-const streams: MediaItem[] = [
-  {
-    title: "Epic Stream 1",
-    thumbnail: "https://via.placeholder.com/300x180",
-    description: "Watch the latest stream!",
-  },
-  {
-    title: "Epic Stream 2",
-    thumbnail: "https://via.placeholder.com/300x180",
-    description: "Another amazing stream replay.",
-  },
-];
+// const streams: MediaItem[] = [
+//   {
+//     title: "Epic Stream 1",
+//     thumbnail: "https://via.placeholder.com/300x180",
+//     description: "Watch the latest stream!",
+//   },
+//   {
+//     title: "Epic Stream 2",
+//     thumbnail: "https://via.placeholder.com/300x180",
+//     description: "Another amazing stream replay.",
+//   },
+// ];
 
 const MediaSection = ({
   title,
