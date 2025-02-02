@@ -1,28 +1,34 @@
-import { useState } from 'react'
-import ryanFace from './assets/ryan.png'
-import './App.css'
+import { BrowserRouter, Route, Routes } from "react-router";
+import Home from "./pages/home/Home";
+import NotFound from "./pages/notFound/NotFound";
+import PageLayout from "./layout/PageLayout";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "./components/theme-provider";
+
+const publicRoutes = [{ path: "/", element: <Home /> }];
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={ryanFace} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Bang Counter</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          The RS Guy has banged <code>{count}</code> times this stream.
-        </p>
-      </div>
-    </>
-  )
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            {publicRoutes.map((route, index) => (
+              <Route
+                key={"public-" + index}
+                path={route.path}
+                element={[<PageLayout key={index}>{route.element}</PageLayout>]}
+              />
+            ))}
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
