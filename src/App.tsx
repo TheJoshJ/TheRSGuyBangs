@@ -5,8 +5,15 @@ import PageLayout from "./layout/PageLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./components/theme-provider";
 import Short from "./pages/short/Short";
+import Tall from "./pages/tall/Tall";
+import Average from "./pages/average/Average";
 
-const publicRoutes = [{ path: "/", element: <Home /> }, { path: "/short", element: <Short /> }];
+const publicRoutes = [
+  { path: "/", element: <Home /> },
+  { path: "/short", element: <Short /> },
+  { path: "/tall", element: <Tall /> },
+  { path: "/average", element: <Average /> },
+];
 
 const queryClient = new QueryClient();
 
