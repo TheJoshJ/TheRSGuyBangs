@@ -4,8 +4,9 @@ import NotFound from "./pages/notFound/NotFound";
 import PageLayout from "./layout/PageLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./components/theme-provider";
+import Short from "./pages/short/Short";
 
-const publicRoutes = [{ path: "/", element: <Home /> }];
+const publicRoutes = [{ path: "/", element: <Home /> }, { path: "/short", element: <Short /> }];
 
 const queryClient = new QueryClient();
 
