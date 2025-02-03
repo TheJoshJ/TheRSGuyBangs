@@ -1,10 +1,8 @@
 import { getBangStats } from "@/utils/getBangStats";
 import { Card } from "@/components/ui/card";
-import { useNavigate } from "react-router";
 
 const VideoRecords = () => {
   const { video } = getBangStats();
-  const navigate = useNavigate();
 
   return (
     <div className="p-6">
@@ -17,7 +15,7 @@ const VideoRecords = () => {
               className="w-full rounded-lg shadow-lg"
             />
             <h3 className="mt-2 text-lg max-w-[400px] min-h-[75px] text-center font-semibold">
-            <a
+              <a
                 href={`https://www.youtube.com/watch?v=${video.leastBangs.videoId}`}
                 target="_blank"
                 rel="noopener noreferrer"
