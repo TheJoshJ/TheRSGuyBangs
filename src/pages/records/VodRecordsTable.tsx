@@ -119,8 +119,8 @@ export const VodRecordsTable = () => {
                   {video.title}
                 </a>
               </TableCell>
-              <TableCell className="text-right">{formatDate(video.datePublished)}</TableCell>
-              <TableCell className="text-right">{video.bangCount}</TableCell>
+              <TableCell className="text-right text-primary">{formatDate(video.datePublished)}</TableCell>
+              <TableCell className="text-right text-primary">{video.bangCount}</TableCell>
             </TableRow>
           ))}
         </TableBody>
