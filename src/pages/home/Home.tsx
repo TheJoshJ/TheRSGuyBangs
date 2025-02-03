@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import videoData from "@/data/video_counts.json";
-import vodData from "@/data/vod_counts.json";
+import { getTotalBangs } from "@/hooks/getTotalBangs";
+import { RotateCcw } from "lucide-react";
 
 function Home() {
   const [bangs, setBangs] = useState(0);
+  const { data, isLoading, isError } = getTotalBangs(); // Fetch data
 
   // Get current date in YYYY-MM-DD format
   const getCurrentDate = () => new Date().toISOString().split("T")[0];
@@ -28,32 +29,28 @@ function Home() {
 
   const handleReset = () => {
     const today = getCurrentDate();
-    const newBangs = 0;
-
-    setBangs(newBangs);
-    localStorage.setItem(`bangs-${today}`, newBangs.toString());
+    setBangs(0);
+    localStorage.setItem(`bangs-${today}`, "0");
   };
 
-  const getTotalBangs = (): number => {
-    return [...videoData, ...vodData].reduce(
-      (sum, item) => sum + (item.bang_count || 0),
-      0
-    );
-  };
-
-// Usage Example
-console.log("Total Bangs:", getTotalBangs());
-
+  // Use a default value of 0 if data is undefined
+  const totalBangs = (data?.total_bangs ?? 0) + bangs;
 
   return (
     <div className="grid grid-rows-3 h-[calc(100vh-70px)]">
       <div className="flex items-end justify-center pb-4">
         <div className="flex flex-col items-center gap-5">
           <h1 className="text-5xl font-bold">TheRSGuy Bangs!</h1>
-          <p>In fact, he's banged {getTotalBangs() + bangs} times!</p>
+          {isLoading ? (
+            <p>Counting how many times he's banged...</p>
+          ) : isError ? (
+            <p>In fact, he's banged so many times that we lost count!</p>
+          ) : (
+            <p>In fact, he's banged {totalBangs} times!</p>
+          )}
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-row items-center gap-4 justify-center">
         <div
           className="rounded-xl"
           style={{
@@ -62,9 +59,21 @@ console.log("Total Bangs:", getTotalBangs());
         >
           <Button onClick={handleBang}>HE BANGED AGAIN!</Button>
         </div>
+        <div className="rounded-xl">
+          <Button variant="outline" size="icon" onClick={handleReset}>
+            <RotateCcw />
+          </Button>
+        </div>
       </div>
       <div className="flex items-end justify-center pb-4">
-        <p onClick={handleReset}>Reset Counter</p>
+        <a
+          href={"https://rs3pd.com"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary hover:underline"
+        >
+          Check out my other site!
+        </a>
       </div>
     </div>
   );

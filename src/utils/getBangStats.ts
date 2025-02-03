@@ -1,7 +1,6 @@
-import videoData from "@/data/video_counts.json";
-import vodData from "@/data/vod_counts.json";
+import { useQuery } from "@tanstack/react-query";
 
-interface VideoRecord {
+export interface VideoRecord {
   videoId: string;
   title: string;
   publishedAt: string;
@@ -10,6 +9,8 @@ interface VideoRecord {
 
 // Function to find most/least bangs in a single dataset
 const findExtremeBang = (arr: VideoRecord[], isMax: boolean) => {
+  if (arr.length === 0) return null; // Handle empty arrays gracefully
+
   return arr.reduce((extreme, item) => {
     const currentBangCount = item.bang_count || 0;
     const extremeBangCount = extreme.bang_count || 0;
@@ -27,33 +28,49 @@ const findExtremeBang = (arr: VideoRecord[], isMax: boolean) => {
   }, arr[0]); // Start with the first item
 };
 
-// Function to get the stats separately for videos and VODs
-export const getBangStats = () => {
-  const formattedVideos: VideoRecord[] = videoData.map((item) => ({
-    ...item,
-    bang_count: item.bang_count || 0,
-  }));
+// Function to fetch data from API
+const fetchBangsData = async (
+  type: "video" | "vod"
+): Promise<VideoRecord[]> => {
+  const endpoint =
+    type === "video"
+      ? "https://api.thersguybangs.com/videos"
+      : "https://api.thersguybangs.com/vods";
 
-  const formattedVods: VideoRecord[] = vodData.map((item) => ({
-    ...item,
-    bang_count: item.bang_count || 0,
-  }));
+  const response = await fetch(endpoint);
+  if (!response.ok) throw new Error(`Failed to fetch ${type} data`);
+
+  return response.json();
+};
+
+// Hook to fetch and compute bang stats dynamically
+export const useBangStats = () => {
+  const videoQuery = useQuery({
+    queryKey: ["bangStats", "video"],
+    queryFn: () => fetchBangsData("video"),
+  });
+
+  const vodQuery = useQuery({
+    queryKey: ["bangStats", "vod"],
+    queryFn: () => fetchBangsData("vod"),
+  });
+
+  const isLoading = videoQuery.isLoading || vodQuery.isLoading;
+  const isError = videoQuery.isError || vodQuery.isError;
+
+  const videoData = videoQuery.data ?? []; // Ensure default empty array
+  const vodData = vodQuery.data ?? []; // Ensure default empty array
 
   return {
+    isLoading,
+    isError,
     video: {
-      mostBangs: findExtremeBang(formattedVideos, true),
-      leastBangs: findExtremeBang(formattedVideos, false),
+      mostBangs: findExtremeBang(videoData, true),
+      leastBangs: findExtremeBang(videoData, false),
     },
     vod: {
-      mostBangs: findExtremeBang(formattedVods, true),
-      leastBangs: findExtremeBang(formattedVods, false),
+      mostBangs: findExtremeBang(vodData, true),
+      leastBangs: findExtremeBang(vodData, false),
     },
   };
 };
-
-// Usage Example
-const { video, vod } = getBangStats();
-console.log("Video with Most Bangs:", video.mostBangs);
-console.log("Video with Least Bangs:", video.leastBangs);
-console.log("VOD with Most Bangs:", vod.mostBangs);
-console.log("VOD with Least Bangs:", vod.leastBangs);

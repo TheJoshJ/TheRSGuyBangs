@@ -1,84 +1,57 @@
 import { useState } from "react";
-import { VideoRecordsTable } from "./VideoRecordsTable";
-import { VodRecordsTable } from "./VodRecordsTable"; // Assuming you have this
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import VideoRecords from "./VideoRecords";
-import VodRecords from "./VodRecords";
+import RecordHighlights from "./RecordHighlights";
+import { RecordsTable } from "./RecordsTable";
 
 const MediaGallery = () => {
   const [expanded, setExpanded] = useState(false);
-  const handleExpand = () => {
-    setExpanded(!expanded);
-  };
+  const [selectedTab, setSelectedTab] = useState<"video" | "vod">("video");
+
+  const handleExpand = () => setExpanded(!expanded);
+
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <Tabs defaultValue="videos" className="w-full">
+      <Tabs
+        defaultValue="video"
+        className="w-full"
+        onValueChange={(value) =>
+          setSelectedTab(value === "video" ? "video" : "vod")
+        }
+      >
         {/* Tab Switcher */}
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="videos">Videos</TabsTrigger>
-          <TabsTrigger value="streams">Streams</TabsTrigger>
+          <TabsTrigger value="video">Videos</TabsTrigger>
+          <TabsTrigger value="vod">Streams</TabsTrigger>
         </TabsList>
 
-        {/* Videos Tab */}
-        <TabsContent value="videos">
+        {/* Dynamic Content */}
+        <TabsContent value={selectedTab}>
           <Card>
             <CardHeader>
               <CardTitle className="text-center text-3xl">
-                Video Records
+                {selectedTab === "video" ? "Video Records" : "Stream Records"}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="gap-6">
-                <VideoRecords />
+                <RecordHighlights type={selectedTab} />
               </div>
               <div className="flex flex-row justify-center pt-10">
                 <Button
                   variant="ghost"
                   onClick={handleExpand}
-                  className="text-centercursor-pointer"
+                  className="text-center cursor-pointer"
                 >
                   {expanded ? "Hide" : "Show"} Source
                 </Button>
               </div>
               {expanded && (
-                <div className="mt-4 p-4 border rounded-lg text-white">
+                <div className="mt-4 p-4 rounded-lg text-white">
                   <ScrollArea>
-                    <VideoRecordsTable />
-                  </ScrollArea>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Streams Tab */}
-        <TabsContent value="streams">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-center text-3xl">
-                Stream Records
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="gap-6">
-              <VodRecords/>
-              </div>
-              <div className="flex flex-row justify-center pt-10">
-                <Button
-                  variant="ghost"
-                  onClick={handleExpand}
-                  className="text-centercursor-pointer"
-                >
-                  {expanded ? "Hide" : "Show"} Source
-                </Button>
-              </div>
-              {expanded && (
-                <div className="mt-4 p-4 border rounded-lg text-white">
-                  <ScrollArea>
-                    <VodRecordsTable />
+                    <RecordsTable type={selectedTab} />
                   </ScrollArea>
                 </div>
               )}

@@ -17,8 +17,12 @@ interface VideoRecord {
   bangCount: number;
 }
 
-export const VodRecordsTable = () => {
-  const [videos, setVideos] = useState<VideoRecord[]>([]);
+interface RecordsTableProps {
+  type: "video" | "vod";
+}
+
+export const RecordsTable: React.FC<RecordsTableProps> = ({ type }) => {
+  const [records, setRecords] = useState<VideoRecord[]>([]);
   const [sortColumn, setSortColumn] = useState<keyof VideoRecord | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
@@ -33,9 +37,13 @@ export const VodRecordsTable = () => {
   useEffect(() => {
     const fetchJSON = async () => {
       try {
-        const response = await fetch("/vod_counts.json");
+        const endpoint =
+          type === "video"
+            ? "https://api.thersguybangs.com/videos"
+            : "https://api.thersguybangs.com/vods";
+
+        const response = await fetch(endpoint);
         const data = await response.json();
-        console.log(data)
 
         const formattedData: VideoRecord[] = data.map((item: any) => ({
           videoId: item.videoId,
@@ -44,17 +52,17 @@ export const VodRecordsTable = () => {
           bangCount: parseInt(item.bang_count, 10) || 0,
         }));
 
-        setVideos(formattedData);
+        setRecords(formattedData);
       } catch (error) {
-        console.error("Error fetching JSON:", error);
+        console.error(`Error fetching ${type} data:`, error);
       }
     };
 
     fetchJSON();
-  }, []);
+  }, [type]);
 
-  // Sort videos based on selected column
-  const sortedVideos = [...videos].sort((a, b) => {
+  // Sort records based on selected column
+  const sortedRecords = [...records].sort((a, b) => {
     if (!sortColumn) return 0;
 
     const valueA = a[sortColumn];
@@ -83,7 +91,9 @@ export const VodRecordsTable = () => {
   return (
     <div className="w-full max-w-5xl">
       <Table>
-        <TableCaption>List of videos and their bang count.</TableCaption>
+        <TableCaption>
+          List of {type === "video" ? "videos" : "VODs"} and their bang count.
+        </TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead
@@ -100,27 +110,31 @@ export const VodRecordsTable = () => {
             </TableHead>
             <TableHead
               onClick={() => handleSort("bangCount")}
-              className="text-right cursor-pointer"
+              className="text-right cursor-pointer min-w-[100px]"
             >
-              Bang Count <ArrowUpDown className="inline ml-1 h-4 w-4" />
+              Bangs <ArrowUpDown className="inline ml-1 h-4 w-4" />
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sortedVideos.map((video, index) => (
+          {sortedRecords.map((record, index) => (
             <TableRow key={index}>
               <TableCell className="font-medium">
                 <a
-                  href={`https://www.youtube.com/watch?v=${video.videoId}`}
+                  href={`https://www.youtube.com/watch?v=${record.videoId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-text-primary hover:underline"
+                  className="text-primary hover:underline"
                 >
-                  {video.title}
+                  {record.title}
                 </a>
               </TableCell>
-              <TableCell className="text-right text-primary">{formatDate(video.datePublished)}</TableCell>
-              <TableCell className="text-right text-primary">{video.bangCount}</TableCell>
+              <TableCell className="text-right text-primary">
+                {formatDate(record.datePublished)}
+              </TableCell>
+              <TableCell className="text-right text-primary">
+                {record.bangCount}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
