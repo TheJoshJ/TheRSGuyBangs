@@ -1,3 +1,11 @@
+import { useState } from "react";
+import { VideoRecordsTable } from "./VideoRecordsTable";
+import { VodRecordsTable } from "./VodRecordsTable"; // Assuming you have this
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 interface MediaItem {
   title: string;
   thumbnail: string;
@@ -7,65 +15,133 @@ interface MediaItem {
 const videos: MediaItem[] = [
   {
     title: "We need to talk about my future in the RuneScape community.",
-    thumbnail: "https://i.ytimg.com/vi/TpRLuboKQKE/hqdefault.jpg",
+    thumbnail: "https://i.ytimg.com/vi/TpRLuboKQKE/maxresdefault.jpg",
     description: "0 total bangs",
   },
   {
     title:
       "The 25 Hour Grind for a HUGE upgrade! | Style Locked Group Ironman (#9)",
-    thumbnail: "https://i.ytimg.com/vi/3nP7zKUa7WA/hqdefault.jpg",
+    thumbnail: "https://i.ytimg.com/vi/3nP7zKUa7WA/maxresdefault.jpg",
     description: "35 total bangs",
   },
 ];
 
-// const streams: MediaItem[] = [
-//   {
-//     title: "Epic Stream 1",
-//     thumbnail: "https://via.placeholder.com/300x180",
-//     description: "Watch the latest stream!",
-//   },
-//   {
-//     title: "Epic Stream 2",
-//     thumbnail: "https://via.placeholder.com/300x180",
-//     description: "Another amazing stream replay.",
-//   },
-// ];
-
-const MediaSection = ({
-  title,
-  items,
-}: {
-  title: string;
-  items: MediaItem[];
-}) => (
-  <div className="w-full">
-    <h2 className="text-3xl font-bold text-center">{title}</h2>
-    <p className="font-bold mb-4 text-center">(since 12/1/2024)</p>
-    <div className="grid grid-cols-2 gap-6">
-      {items.map((item, index) => (
-        <div key={index} className="flex flex-col items-center">
-          <img
-            src={item.thumbnail}
-            alt={item.title}
-            className="w-full rounded-lg shadow-lg"
-          />
-          <h3 className="mt-2 text-lg max-w-[400px] min-h-[75px] text-center font-semibold">
-            {item.title}
-          </h3>
-          <p className=" text-gray-400">{item.description}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+const streams: MediaItem[] = [
+  {
+    title: "RuneScape Discord Stage with New Executive Producer Mod Markos and Mod Hooli! | The RS Guy VODS",
+    thumbnail: "https://i.ytimg.com/vi/ekw--Vou3fA/maxresdefault.jpg",
+    description: "0 total bangs",
+  },
+  {
+    title:
+      "[Locked In] Day 36 | Big Game Hunter + PvM! | The RS Guy VODS",
+    thumbnail: "https://i.ytimg.com/vi/GwrPuKVJQxI/maxresdefault.jpg",
+    description: "89 total bangs",
+  },
+];
 
 const MediaGallery = () => {
+  const [expanded, setExpanded] = useState(false);
+  const handleExpand = () => {
+    setExpanded(!expanded);
+  };
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <div className="flex flex-col gap-[100px] space-y-10">
-        <MediaSection title="Video Records" items={videos} />
-        {/* <MediaSection title="Stream Records" items={streams} /> */}
-      </div>
+      <Tabs defaultValue="videos" className="w-full">
+        {/* Tab Switcher */}
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="videos">Videos</TabsTrigger>
+          <TabsTrigger value="streams">Streams</TabsTrigger>
+        </TabsList>
+
+        {/* Videos Tab */}
+        <TabsContent value="videos">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-center text-3xl">
+                Video Records
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-6">
+                {videos.map((item, index) => (
+                  <div key={index} className="flex flex-col items-center">
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="w-full rounded-lg shadow-lg"
+                    />
+                    <h3 className="mt-2 text-lg max-w-[400px] min-h-[75px] text-center font-semibold">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-400">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-row justify-center pt-10">
+                <Button
+                  variant="ghost"
+                  onClick={handleExpand}
+                  className="text-centercursor-pointer"
+                >
+                  {expanded ? "Hide" : "Show"} Source
+                </Button>
+              </div>
+              {expanded && (
+                <div className="mt-4 p-4 border rounded-lg text-white">
+                  <ScrollArea>
+                    <VideoRecordsTable />
+                  </ScrollArea>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Streams Tab */}
+        <TabsContent value="streams">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-center text-3xl">
+                Stream Records
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-6">
+                {streams.map((item, index) => (
+                  <div key={index} className="flex flex-col items-center">
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="w-full rounded-lg shadow-lg"
+                    />
+                    <h3 className="mt-2 text-lg max-w-[400px] min-h-[75px] text-center font-semibold">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-400">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-row justify-center pt-10">
+                <Button
+                  variant="ghost"
+                  onClick={handleExpand}
+                  className="text-centercursor-pointer"
+                >
+                  {expanded ? "Hide" : "Show"} Source
+                </Button>
+              </div>
+              {expanded && (
+                <div className="mt-4 p-4 border rounded-lg text-white">
+                  <ScrollArea>
+                    <VodRecordsTable />
+                  </ScrollArea>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import videoData from "@/data/video_counts.json";
+import vodData from "@/data/vod_counts.json";
 
 function Home() {
   const [bangs, setBangs] = useState(0);
@@ -32,11 +34,23 @@ function Home() {
     localStorage.setItem(`bangs-${today}`, newBangs.toString());
   };
 
+  const getTotalBangs = (): number => {
+    return [...videoData, ...vodData].reduce(
+      (sum, item) => sum + (item.bang_count || 0),
+      0
+    );
+  };
+
+// Usage Example
+console.log("Total Bangs:", getTotalBangs());
+
+
   return (
     <div className="grid grid-rows-3 h-[calc(100vh-70px)]">
       <div className="flex items-end justify-center pb-4">
         <div className="flex flex-col items-center gap-5">
           <h1 className="text-5xl font-bold">TheRSGuy Bangs!</h1>
+          <p>Apparently he's done it {getTotalBangs() + bangs} times!</p>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
@@ -48,7 +62,6 @@ function Home() {
         >
           <Button onClick={handleBang}>HE BANGED AGAIN!</Button>
         </div>
-        <p className="pt-10">Bangs This Stream: {bangs}</p>
       </div>
       <div className="flex items-end justify-center pb-4">
         <p onClick={handleReset}>Reset Counter</p>
