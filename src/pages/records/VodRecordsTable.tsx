@@ -114,7 +114,7 @@ export const VodRecordsTable = () => {
                   href={`https://www.youtube.com/watch?v=${video.videoId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
+                  className="text-text-primary hover:underline"
                 >
                   {video.title}
                 </a>

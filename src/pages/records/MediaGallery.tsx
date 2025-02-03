@@ -5,40 +5,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
-interface MediaItem {
-  title: string;
-  thumbnail: string;
-  description: string;
-}
-
-const videos: MediaItem[] = [
-  {
-    title: "We need to talk about my future in the RuneScape community.",
-    thumbnail: "https://i.ytimg.com/vi/TpRLuboKQKE/maxresdefault.jpg",
-    description: "0 total bangs",
-  },
-  {
-    title:
-      "The 25 Hour Grind for a HUGE upgrade! | Style Locked Group Ironman (#9)",
-    thumbnail: "https://i.ytimg.com/vi/3nP7zKUa7WA/maxresdefault.jpg",
-    description: "35 total bangs",
-  },
-];
-
-const streams: MediaItem[] = [
-  {
-    title: "RuneScape Discord Stage with New Executive Producer Mod Markos and Mod Hooli! | The RS Guy VODS",
-    thumbnail: "https://i.ytimg.com/vi/ekw--Vou3fA/maxresdefault.jpg",
-    description: "0 total bangs",
-  },
-  {
-    title:
-      "[Locked In] Day 36 | Big Game Hunter + PvM! | The RS Guy VODS",
-    thumbnail: "https://i.ytimg.com/vi/GwrPuKVJQxI/maxresdefault.jpg",
-    description: "89 total bangs",
-  },
-];
+import VideoRecords from "./VideoRecords";
+import VodRecords from "./VodRecords";
 
 const MediaGallery = () => {
   const [expanded, setExpanded] = useState(false);
@@ -63,20 +31,8 @@ const MediaGallery = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-6">
-                {videos.map((item, index) => (
-                  <div key={index} className="flex flex-col items-center">
-                    <img
-                      src={item.thumbnail}
-                      alt={item.title}
-                      className="w-full rounded-lg shadow-lg"
-                    />
-                    <h3 className="mt-2 text-lg max-w-[400px] min-h-[75px] text-center font-semibold">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-400">{item.description}</p>
-                  </div>
-                ))}
+              <div className="gap-6">
+                <VideoRecords />
               </div>
               <div className="flex flex-row justify-center pt-10">
                 <Button
@@ -107,20 +63,8 @@ const MediaGallery = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-6">
-                {streams.map((item, index) => (
-                  <div key={index} className="flex flex-col items-center">
-                    <img
-                      src={item.thumbnail}
-                      alt={item.title}
-                      className="w-full rounded-lg shadow-lg"
-                    />
-                    <h3 className="mt-2 text-lg max-w-[400px] min-h-[75px] text-center font-semibold">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-400">{item.description}</p>
-                  </div>
-                ))}
+              <div className="gap-6">
+              <VodRecords/>
               </div>
               <div className="flex flex-row justify-center pt-10">
                 <Button
