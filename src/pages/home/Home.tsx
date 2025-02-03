@@ -50,7 +50,7 @@ console.log("Total Bangs:", getTotalBangs());
       <div className="flex items-end justify-center pb-4">
         <div className="flex flex-col items-center gap-5">
           <h1 className="text-5xl font-bold">TheRSGuy Bangs!</h1>
-          <p>Apparently he's done it {getTotalBangs() + bangs} times!</p>
+          <p>In fact, he's banged {getTotalBangs() + bangs} times!</p>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
