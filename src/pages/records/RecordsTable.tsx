@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { RecordsSlide } from "./RecordsSlide";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
