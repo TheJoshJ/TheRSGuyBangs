@@ -34,8 +34,8 @@ const fetchBangsData = async (
 ): Promise<VideoRecord[]> => {
   const endpoint =
     type === "video"
-      ? "https://api.thersguybangs.com/videos"
-      : "https://api.thersguybangs.com/vods";
+      ? "https://api.thersguybangs.com/api/v1/videos"
+      : "https://api.thersguybangs.com/api/v1/vods";
 
   const response = await fetch(endpoint);
   if (!response.ok) throw new Error(`Failed to fetch ${type} data`);

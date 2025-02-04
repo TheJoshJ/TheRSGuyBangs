@@ -5,7 +5,7 @@ export interface Bangs {
 }
 
 const fetchTotalBangsData = async (): Promise<Bangs> => {
-  const response = await fetch("https://api.thersguybangs.com/bangs");
+  const response = await fetch("https://api.thersguybangs.com/api/v1/bangs");
 
   if (!response.ok) {
     throw new Error("Failed to fetch bangs data");
