@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, EllipsisIcon } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -9,12 +9,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
+import { RecordsSlide } from "./RecordsSlide";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+
+interface BangRecord {
+  timestamp: number;
+  transcript: string;
+}
 
 interface VideoRecord {
   videoId: string;
   title: string;
   datePublished: string;
   bangCount: number;
+  bangs?: BangRecord[]; // Optional, since it may not always be present
 }
 
 interface RecordsTableProps {
@@ -50,6 +60,7 @@ export const RecordsTable: React.FC<RecordsTableProps> = ({ type }) => {
           title: item.title,
           datePublished: item.publishedAt,
           bangCount: parseInt(item.bang_count, 10) || 0,
+          bangs: item.bangs || [], // Ensure it's always an array, even if missing
         }));
 
         setRecords(formattedData);
@@ -114,6 +125,9 @@ export const RecordsTable: React.FC<RecordsTableProps> = ({ type }) => {
             >
               Bangs <ArrowUpDown className="inline ml-1 h-4 w-4" />
             </TableHead>
+            <TableHead className="text-right cursor-pointer min-w-[100px]">
+              Details
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -135,10 +149,25 @@ export const RecordsTable: React.FC<RecordsTableProps> = ({ type }) => {
               <TableCell className="text-right text-primary">
                 {record.bangCount}
               </TableCell>
+              <TableCell>
+                <div className={"flex flex-row justify-end"}>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline">
+                        <EllipsisIcon/>
+                      </Button>
+                    </SheetTrigger>
+                    <RecordsSlide record={record} />
+                  </Sheet>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      {/* Conditional Bangs Display */}
+      <div className="mt-6"></div>
     </div>
   );
 };
