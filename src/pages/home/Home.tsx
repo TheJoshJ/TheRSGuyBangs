@@ -40,7 +40,7 @@ function Home() {
   const showToast = () => {
     toast({
       title: "TheRSGuy is LIVE",
-      description: "If you're lucky, you might see him bang on stream!",
+      description: `If you're lucky, you might see him "bang" on stream!`,
       duration: 15000,
       variant: "default",
       className:
