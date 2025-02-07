@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 const NavButtons = {
   Home: { text: "Home", link: "/" },
-  Records: { text: "Records", link: "/records" },
+  Records: { text: "Stats", link: "/stats" },
 };
 
 const Navbar = () => {
