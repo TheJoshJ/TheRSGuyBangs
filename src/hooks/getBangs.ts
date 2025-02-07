@@ -6,7 +6,7 @@ export interface Bang {
 }
 
 export interface VideoRecord {
-  source?: "videos" | "vods"; // Ensure source is required
+  source?: "videos" | "vods";
   videoId: string;
   title: string;
   publishedAt: string;
@@ -25,7 +25,7 @@ const fetchVideosBangsData = async (): Promise<VideoRecord[]> => {
   const data = await response.json();
   return data.map((item: Omit<VideoRecord, "source">) => ({
     ...item,
-    source: "video", // Fixed typo: Changed "video" to "videos"
+    source: "video",
   }));
 };
 
@@ -39,7 +39,7 @@ const fetchVodsBangsData = async (): Promise<VideoRecord[]> => {
   const data = await response.json();
   return data.map((item: Omit<VideoRecord, "source">) => ({
     ...item,
-    source: "vod", // Fixed typo: Changed "vod" to "vods"
+    source: "vod",
   }));
 };
 
@@ -52,7 +52,7 @@ export const getAllBangs = () => {
         fetchVodsBangsData(),
       ]);
 
-      return [...videos, ...vods]; // Merge both arrays
+      return [...videos, ...vods];
     },
   });
 };

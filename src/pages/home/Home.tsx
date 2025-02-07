@@ -8,7 +8,7 @@ import { ToastAction } from "@/components/ui/toast";
 
 function Home() {
   const [bangs, setBangs] = useState(0);
-  const { data, isLoading, isError } = getTotalBangs(); // Fetch data
+  const { data, isLoading, isError } = getTotalBangs();
   const { toast } = useToast();
 
   // Get current date in YYYY-MM-DD format

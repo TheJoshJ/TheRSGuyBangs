@@ -120,9 +120,14 @@ export const RecordsTable = () => {
     }
   }, [records]);
 
-  const getBangsForSelectedRow = (records: VideoRecord[], selectedRow: string): Bang[] => {
-    const foundRecord = records.find(record => record.videoId === selectedRow);
-    return foundRecord?.bangs ?? []; // Ensure it always returns an array
+  const getBangsForSelectedRow = (
+    records: VideoRecord[],
+    selectedRow: string
+  ): Bang[] => {
+    const foundRecord = records.find(
+      (record) => record.videoId === selectedRow
+    );
+    return foundRecord?.bangs ?? [];
   };
 
   const table = useReactTable({
@@ -144,7 +149,12 @@ export const RecordsTable = () => {
 
   return (
     <div className="w-full rounded border">
-      <RecordHighlights data={getBangsForSelectedRow(records ?? [], selectedRow)} id={selectedRow}/>
+      {/* Youtube Embed & Timestamps */}
+      <RecordHighlights
+        data={getBangsForSelectedRow(records ?? [], selectedRow)}
+        id={selectedRow}
+      />
+      {/* React Table */}
       <div className="border-t">
         <Table>
           <TableHeader>
@@ -198,6 +208,7 @@ export const RecordsTable = () => {
           </TableBody>
         </Table>
       </div>
+      {/* Pagination */}
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground pl-4">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
