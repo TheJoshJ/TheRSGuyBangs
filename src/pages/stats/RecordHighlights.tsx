@@ -39,16 +39,16 @@ const RecordHighlights = ({ data, id }: RecordHighlightsProps) => {
           <div className="p-2">
             {data.map((instance, index) => (
               <div
-                className="flex flex-row my-2 py-2 gap-10 border-muted-foreground border rounded cursor-pointer"
+                className="flex flex-row my-2 py-2 gap-4 border-primary border-l-[5px] cursor-pointer"
                 key={index}
                 onClick={() => {
                   setVideoStartTime(instance.timestamp);
                 }}
               >
-                <div className="w-[10%] text-right">
+                <div className="w-[8%] text-right">
                   {FormatTimestamp(instance.timestamp)}
                 </div>
-                <div className="w-[90%]">"{instance.transcript}"</div>
+                <div className="w-[90%] italic">"{instance.transcript}"</div>
               </div>
             ))}
           </div>
