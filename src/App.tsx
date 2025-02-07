@@ -7,14 +7,14 @@ import { ThemeProvider } from "./components/theme-provider";
 import Short from "./pages/short/Short";
 import Tall from "./pages/tall/Tall";
 import Average from "./pages/average/Average";
-import Records from "./pages/records/Records";
+import { Stats } from "./pages/stats/Stats";
 
 const publicRoutes = [
   { path: "/", element: <Home /> },
   { path: "/short", element: <Short /> },
   { path: "/tall", element: <Tall /> },
   { path: "/average", element: <Average /> },
-  { path: "/records", element: <Records /> },
+  { path: "/stats", element: <Stats /> },
 ];
 
 const queryClient = new QueryClient();

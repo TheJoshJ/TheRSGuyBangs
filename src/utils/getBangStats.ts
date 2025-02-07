@@ -44,33 +44,22 @@ const fetchBangsData = async (
 };
 
 // Hook to fetch and compute bang stats dynamically
-export const useBangStats = () => {
-  const videoQuery = useQuery({
-    queryKey: ["bangStats", "video"],
-    queryFn: () => fetchBangsData("video"),
+export const useBangStats = (type: "video" | "vod") => {
+  const statsQuery = useQuery({
+    queryKey: ["bangStats" + type],
+    queryFn: () => fetchBangsData(type),
   });
 
-  const vodQuery = useQuery({
-    queryKey: ["bangStats", "vod"],
-    queryFn: () => fetchBangsData("vod"),
-  });
-
-  const isLoading = videoQuery.isLoading || vodQuery.isLoading;
-  const isError = videoQuery.isError || vodQuery.isError;
-
-  const videoData = videoQuery.data ?? []; // Ensure default empty array
-  const vodData = vodQuery.data ?? []; // Ensure default empty array
+  const loading = statsQuery.isLoading || statsQuery.isLoading;
+  const error = statsQuery.isError || statsQuery.isError;
+  const data = statsQuery.data ?? [];
 
   return {
-    isLoading,
-    isError,
-    video: {
-      mostBangs: findExtremeBang(videoData, true),
-      leastBangs: findExtremeBang(videoData, false),
-    },
-    vod: {
-      mostBangs: findExtremeBang(vodData, true),
-      leastBangs: findExtremeBang(vodData, false),
+    loading,
+    error,
+    data: {
+      mostBangs: findExtremeBang(data, true),
+      leastBangs: findExtremeBang(data, false),
     },
   };
 };
