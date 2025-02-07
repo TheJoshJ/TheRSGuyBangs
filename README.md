@@ -1,7 +1,7 @@
 
 # TheRSGuyBangs.com
 
-[TheRSGuyBangs.com](https:/TheRSGuyBangs.com/) is a web application built to track and display the number of times TheRSGuy, a popular RuneScape content creator, has said the word "bang" across all of his streams and videos.
+[TheRSGuyBangs.com](https://TheRSGuyBangs.com/) is a web application built to track and display the number of times TheRSGuy, a popular RuneScape content creator, has said the word "bang" across all of his streams and videos.
 
 **Tech Stack**
 <table>
