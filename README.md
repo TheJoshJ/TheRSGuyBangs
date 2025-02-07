@@ -25,6 +25,7 @@
 </td>
 </tr>
 </table>
+
 **1. Data Collection**
 
 To count the number of times "bang" is said, we use a custom-built JavaScript script that:
