@@ -8,6 +8,7 @@ import Short from "./pages/short/Short";
 import Tall from "./pages/tall/Tall";
 import Average from "./pages/average/Average";
 import { Stats } from "./pages/stats/Stats";
+import SusClips from "./pages/sus/SusClips";
 
 const publicRoutes = [
   { path: "/", element: <Home /> },
@@ -15,6 +16,7 @@ const publicRoutes = [
   { path: "/tall", element: <Tall /> },
   { path: "/average", element: <Average /> },
   { path: "/stats", element: <Stats /> },
+  { path: "/sus", element: <SusClips /> },
 ];
 
 const queryClient = new QueryClient();
