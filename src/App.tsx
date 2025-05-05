@@ -5,12 +5,10 @@ import PageLayout from "./layout/PageLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./components/theme-provider";
 import { Stats } from "./pages/stats/Stats";
-import { Blasts } from "./pages/blasts/Blasts";
 
 const publicRoutes = [
   { path: "/", element: <Home /> },
   { path: "/stats", element: <Stats /> },
-  { path: "/blasts", element: <Blasts /> },
 ];
 
 const queryClient = new QueryClient();

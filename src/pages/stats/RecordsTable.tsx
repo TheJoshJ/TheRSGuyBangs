@@ -86,6 +86,23 @@ export const columns: ColumnDef<VideoRecord>[] = [
     ),
   },
   {
+    accessorKey: "blast_count",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Blasts
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase pl-4">{row.getValue("blast_count")}</div>
+    ),
+  },
+  {
     accessorKey: "videoId",
     header: "Link",
     cell: ({ row }) => (
@@ -106,7 +123,9 @@ export const columns: ColumnDef<VideoRecord>[] = [
 ];
 
 export const RecordsTable = () => {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "publishedAt", desc: true },
+  ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [selectedRow, setSelectedRow] = useState<string>("0");
