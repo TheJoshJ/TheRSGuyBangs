@@ -4,19 +4,13 @@ import NotFound from "./pages/notFound/NotFound";
 import PageLayout from "./layout/PageLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./components/theme-provider";
-import Short from "./pages/short/Short";
-import Tall from "./pages/tall/Tall";
-import Average from "./pages/average/Average";
 import { Stats } from "./pages/stats/Stats";
-import SusClips from "./pages/sus/SusClips";
+import { Blasts } from "./pages/blasts/Blasts";
 
 const publicRoutes = [
   { path: "/", element: <Home /> },
-  { path: "/short", element: <Short /> },
-  { path: "/tall", element: <Tall /> },
-  { path: "/average", element: <Average /> },
   { path: "/stats", element: <Stats /> },
-  { path: "/sus", element: <SusClips /> },
+  { path: "/blasts", element: <Blasts /> },
 ];
 
 const queryClient = new QueryClient();

@@ -4,7 +4,6 @@ export interface Bang {
   timestamp: number;
   transcript: string;
 }
-
 export interface Blast {
   timestamp: number;
   transcript: string;
@@ -23,7 +22,7 @@ export interface VideoRecord {
 }
 
 // Fetch videos
-const fetchVideosBangsData = async (): Promise<VideoRecord[]> => {
+const fetchVideosBlastsData = async (): Promise<VideoRecord[]> => {
   const response = await fetch("https://api.thersguybangs.com/api/v1/videos");
   if (!response.ok) {
     throw new Error("Failed to fetch videos data");
@@ -37,7 +36,7 @@ const fetchVideosBangsData = async (): Promise<VideoRecord[]> => {
 };
 
 // Fetch VODs
-const fetchVodsBangsData = async (): Promise<VideoRecord[]> => {
+const fetchVodsBlastsData = async (): Promise<VideoRecord[]> => {
   const response = await fetch("https://api.thersguybangs.com/api/v1/vods");
   if (!response.ok) {
     throw new Error("Failed to fetch VODs data");
@@ -50,13 +49,13 @@ const fetchVodsBangsData = async (): Promise<VideoRecord[]> => {
   }));
 };
 
-export const getAllBangs = () => {
+export const getAllBlasts = () => {
   return useQuery({
-    queryKey: ["getAllBangs"],
+    queryKey: ["getAllBlasts"],
     queryFn: async () => {
       const [videos, vods] = await Promise.all([
-        fetchVideosBangsData(),
-        fetchVodsBangsData(),
+        fetchVideosBlastsData(),
+        fetchVodsBlastsData(),
       ]);
 
       return [...videos, ...vods];
