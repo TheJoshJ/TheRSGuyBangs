@@ -102,7 +102,7 @@ function Home() {
             <p>
               Counting how many times he's {blastMode ? "blasted" : "banged"}...
             </p>
-          ) : bangIsError ? (
+          ) : bangIsError || blastIsError ? (
             <p>
               In fact, he's {blastMode ? "blasted" : "banged"} so many times
               that we lost count!
