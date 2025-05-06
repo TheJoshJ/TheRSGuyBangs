@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/table";
 import { formatDate } from "@/utils/formatDate";
 import RecordHighlights from "./RecordHighlights";
-import { Bang, getAllBangs, VideoRecord } from "@/hooks/getBangs";
+import { Bang, Blast, getAllBangs, VideoRecord } from "@/hooks/getBangs";
 
 export const columns: ColumnDef<VideoRecord>[] = [
   {
@@ -149,6 +149,16 @@ export const RecordsTable = () => {
     return foundRecord?.bangs ?? [];
   };
 
+  const getBlastsForSelectedRow = (
+    records: VideoRecord[],
+    selectedRow: string
+  ): Blast[] => {
+    const foundRecord = records.find(
+      (record) => record.videoId === selectedRow
+    );
+    return foundRecord?.blasts ?? [];
+  };
+
   const table = useReactTable({
     data: records ?? [],
     columns,
@@ -170,7 +180,8 @@ export const RecordsTable = () => {
     <div className="w-full rounded border">
       {/* Youtube Embed & Timestamps */}
       <RecordHighlights
-        data={getBangsForSelectedRow(records ?? [], selectedRow)}
+        bangData={getBangsForSelectedRow(records ?? [], selectedRow)}
+        blastData={getBlastsForSelectedRow(records ?? [], selectedRow)}
         id={selectedRow}
       />
       {/* React Table */}
