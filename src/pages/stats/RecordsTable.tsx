@@ -25,6 +25,7 @@ import {
 import { formatDate } from "@/utils/formatDate";
 import RecordHighlights from "./RecordHighlights";
 import { Bang, Blast, getAllBangs, VideoRecord } from "@/hooks/getBangs";
+import { FormatTimestamp } from "@/utils/formatTimestamp";
 
 export const columns: ColumnDef<VideoRecord>[] = [
   {
@@ -107,26 +108,32 @@ export const columns: ColumnDef<VideoRecord>[] = [
     header: "Data",
     cell: ({ row }) => {
       const rowData = row.original;
-  
+
       const handleDownloadCSV = () => {
         const { title, bangs = [], blasts = [] } = rowData;
-  
+
         const rows = [
           ...bangs.map((b) => ({ type: "bang", ...b })),
           ...blasts.map((b) => ({ type: "blast", ...b })),
         ];
-  
+
         const header = "type,timestamp,transcript";
         const csvContent = [
           header,
           ...rows.map((r) =>
-            [r.type, r.timestamp, `"${r.transcript.replace(/"/g, '""')}"`].join(",")
+            [
+              r.type,
+              FormatTimestamp(r.timestamp),
+              `"${r.transcript.replace(/"/g, '""')}"`,
+            ].join(",")
           ),
         ].join("\n");
-  
-        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+        const blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
         const url = URL.createObjectURL(blob);
-  
+
         const link = document.createElement("a");
         link.setAttribute("href", url);
         link.setAttribute(
@@ -135,7 +142,7 @@ export const columns: ColumnDef<VideoRecord>[] = [
         );
         link.click();
       };
-  
+
       return (
         <DownloadIcon
           onClick={handleDownloadCSV}
@@ -144,7 +151,7 @@ export const columns: ColumnDef<VideoRecord>[] = [
         />
       );
     },
-  }
+  },
 ];
 
 export const RecordsTable = () => {
