@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, LinkIcon } from "lucide-react";
+import { ArrowUpDown, DownloadIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -104,22 +104,47 @@ export const columns: ColumnDef<VideoRecord>[] = [
   },
   {
     accessorKey: "videoId",
-    header: "Link",
-    cell: ({ row }) => (
-      <div>
-        <LinkIcon
-          onClick={() => {
-            window.open(
-              `https://www.youtube.com/watch?v=${row.renderValue("videoId")}`,
-              "_blank",
-              "noopener,noreferrer"
-            );
-          }}
-          size={"20px"}
+    header: "Data",
+    cell: ({ row }) => {
+      const rowData = row.original;
+  
+      const handleDownloadCSV = () => {
+        const { title, bangs = [], blasts = [] } = rowData;
+  
+        const rows = [
+          ...bangs.map((b) => ({ type: "bang", ...b })),
+          ...blasts.map((b) => ({ type: "blast", ...b })),
+        ];
+  
+        const header = "type,timestamp,transcript";
+        const csvContent = [
+          header,
+          ...rows.map((r) =>
+            [r.type, r.timestamp, `"${r.transcript.replace(/"/g, '""')}"`].join(",")
+          ),
+        ].join("\n");
+  
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+  
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute(
+          "download",
+          `${title.replace(/[\\/:*?"<>|]/g, "")}-stats.csv`
+        );
+        link.click();
+      };
+  
+      return (
+        <DownloadIcon
+          onClick={handleDownloadCSV}
+          size="20px"
+          className="cursor-pointer"
         />
-      </div>
-    ),
-  },
+      );
+    },
+  }
 ];
 
 export const RecordsTable = () => {
